@@ -4,6 +4,7 @@ Projeyi Çalıştırmak İçin Gerekli Adımlar
 
 Gerekli NuGet paketlerini yükleyin:
 dotnet restore
+
 Aşağıdaki NuGet paketlerinin yüklü olduğundan emin olun:
 Microsoft.EntityFrameworkCore 
 Microsoft.EntityFrameworkCore.Design 
@@ -11,20 +12,30 @@ Microsoft.EntityFrameworkCore.Sqlite
 Microsoft.EntityFrameworkCore.Tools
 
 .NET 8.0 SDK yüklü olmalıdır.
-Veritabanını oluşturmak için "dotnet ef database update" komutunu çalıştırmalısınız.
+Veritabanını oluşturmak için "dotnet ef database update" komutunu çalıştırmalısınız. 
+
 Veritabanındaki verileri görüntülemek için https://sqlitestudio.pl/ kurulumu yapılabilir.
 
 Kullanılan Teknolojiler
+
 ASP.NET Core 8.0
+
 Razor Pages
+
 Entity Framework Core 
+
 SQLite
+
 Cookie Authentication
+
 Bootstrap 5
+
 FontAwesome
 
 Varsayımlar ve Yaklaşımlar
-Kullanıcı rolleri: User ve Admin olmak üzere 2 adet rol tanımlanmıştır.
+
+User ve Admin olmak üzere 2 adet rol tanımlanmıştır.
+
 User rolüne sahip kullanıcılar yalnızca kendi randevularını görüntüleyebilir, oluşturabilir, tarihlerini güncelleyebilir ve iptal edebilir.
 Admin rolü, tüm kullanıcıların randevularını yalnızca görüntüleyebilir. Admin, yeni randevu oluşturamaz ancak kullanıcıların oluşturduğu randevuları onaylayabilir veya reddedebilir (Denied durumu).
 
