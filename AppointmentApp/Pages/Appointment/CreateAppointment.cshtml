@@ -1,0 +1,52 @@
+﻿@page
+@using AppointmentApp.Insfrastructure.User
+@model AppointmentApp.Pages.Appointment.CreateAppointmentModel
+@{
+    ViewData["Title"] = "Randevu Oluştur";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="card shadow-sm rounded-3 p-4">
+                <div class="card-header bg-dark text-white">
+                    <i class="fa fa-calendar-plus me-2"></i> Randevu Oluştur
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-page-handler="Save">
+                        <div class="mb-3">
+                            <label asp-for="Appointment.DepartmentId" class="form-label fw-semibold">
+                                <i class="fa fa-search me-2 text-secondary"></i> Bölüm Seçiniz
+                            </label>
+                            <select asp-for="Appointment.DepartmentId" asp-items="Model.DepartmentList" class="form-select">
+                                <option value="">Randevu almak istediğiniz bölümü seçiniz</option>
+                            </select>
+                            <span asp-validation-for="Appointment.DepartmentId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Appointment.DateTime" class="form-label fw-semibold">
+                                <i class="fa fa-calendar-alt me-2 text-secondary"></i> Tarih ve Saat
+                            </label>
+                            <input asp-for="Appointment.DateTime" type="datetime-local" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="Appointment.DateTime" class="text-danger small"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn text-white px-4" style="background-color: #2563eb;">
+                                <i class="fa fa-save me-2"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

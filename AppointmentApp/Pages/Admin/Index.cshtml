@@ -1,0 +1,99 @@
+﻿@page
+@model AppointmentApp.Pages.Admin.IndexModel
+@using AppointmentApp.Insfrastructure.User
+@using AppointmentApp.Models
+
+@{
+    ViewData["Title"] = "Tüm Randevular";
+    var bekleyenRandevular = Model.AllAppointments
+        .Where(r => r.Status == AppointmentStatus.Approved)
+        .OrderBy(r => r.DateTime)
+        .ToList();
+    var reddedilenRandevular = Model.AllAppointments
+        .Where(r => r.Status == AppointmentStatus.Denied)
+        .OrderByDescending(r => r.DateTime)
+        .ToList();
+}
+
+<div class="mt-4">
+    <h4 class="fw-bold text-primary mb-4">
+        <i class="fa fa-hourglass-half me-2"></i>Onay Bekleyen Randevular
+    </h4>
+
+    @if (!bekleyenRandevular.Any())
+    {
+        <p class="text-muted">Onay bekleyen randevu bulunmamaktadır.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover shadow-sm rounded">
+                <thead class="table-dark text-white">
+                    <tr>
+                        <th>Kullanıcı</th>
+                        <th>Bölüm</th>
+                        <th>Tarih</th>
+                        <th>Durum</th>
+                        <th class="text-center">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in bekleyenRandevular)
+                    {
+                        <tr>
+                            <td class="align-middle">@r.UserName</td>
+                            <td class="align-middle">@r.DepartmentName</td>
+                            <td class="align-middle">@r.DateTime.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td class="align-middle">@r.GetStatusText(UserService.GetRole())</td>
+                            <td class="text-center align-middle">
+                                <form method="post">
+                                    <input type="hidden" name="appointmentId" value="@r.Id" />
+                                    <button type="submit"
+                                            formaction="?handler=Reject"
+                                            class="btn btn-sm btn-outline-danger" style="border-radius:0.5rem;"
+                                            data-bs-toggle="tooltip"
+                                            title="Randevuyu Reddet">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    @if (reddedilenRandevular.Any())
+    {
+        <h4 class="mt-5 fw-semibold text-danger">
+            <i class="fa fa-ban me-2"></i>Reddedilen Randevular
+        </h4>
+        <div class="table-responsive">
+            <table class="table table-hover shadow-sm rounded mt-3">
+                <thead class="table-danger text-dark">
+                    <tr>
+                        <th>Kullanıcı</th>
+                        <th>Bölüm</th>
+                        <th>Tarih</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var r in reddedilenRandevular)
+                    {
+                        <tr class="bg-light text-muted">
+                            <td>@r.UserName</td>
+                            <td>@r.DepartmentName</td>
+                            <td>@r.DateTime.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>
+                                <i class="fa fa-times-circle text-danger me-1"></i>
+                                @r.GetStatusText(UserService.GetRole())
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
